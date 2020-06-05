@@ -1,3 +1,5 @@
+require "openssl"
+
 module Gazou
   class Helpers
     ALPHABET = %w(
@@ -5,8 +7,10 @@ module Gazou
       A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
     )
 
-    def self.get_checksum(filepath : String)
-      `sha256sum #{filepath} | cut -d ' ' -f1 | tr -d '\n'`
+    def self.get_checksum(data : IO)
+      digest = OpenSSL::Digest.new("SHA256")
+      digest << data
+      digest.hexdigest
     end
 
     def self.randomize_filename(filename : String)

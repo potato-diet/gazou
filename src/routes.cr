@@ -18,21 +18,19 @@ module Gazou
     filepath = ""
 
     HTTP::FormData.parse(env.request) do |upload|
-      filename = Helpers.randomize_filename(upload.filename.to_s)
-      filepath = File.join("images", filename)
-
-      File.open(filepath, "w") do |f|
-        IO.copy(upload.body, f)
-      end
-
-      checksum = Helpers.get_checksum(filepath)
+      checksum = Helpers.get_checksum(upload.body)
 
       if image = Image.find_by(checksum: checksum)
-        File.delete(File.join("images", filename))
-
         filepath = File.join("images", image.filename)
       else
-        Image.create(filename: filename, checksum: checksum)
+        filename = Helpers.randomize_filename(upload.filename.to_s)
+        filepath = File.join("images", filename)
+
+        Image.create!(filename: filename, checksum: checksum)
+
+        File.open(filepath, "w") do |f|
+          IO.copy(upload.body, f)
+        end
       end
     end
 
