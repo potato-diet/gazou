@@ -1,0 +1,14 @@
+name: gazou
+version: 0.0.1
+authors:
+  - Justin Harrison <me@justinharrison.ca>
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+  granite:
+    github: amberframework/granite
+
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
