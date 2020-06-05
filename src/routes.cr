@@ -18,7 +18,10 @@ module Gazou
     filepath = ""
 
     HTTP::FormData.parse(env.request) do |upload|
-      checksum = Helpers.get_checksum(upload.body)
+      data = IO::Memory.new
+      IO.copy(upload.body, data)
+
+      checksum = Helpers.get_checksum(data)
 
       if image = Image.find_by(checksum: checksum)
         filepath = File.join("images", image.filename)
@@ -29,7 +32,7 @@ module Gazou
         Image.create!(filename: filename, checksum: checksum)
 
         File.open(filepath, "w") do |f|
-          IO.copy(upload.body, f)
+          IO.copy(data, f)
         end
       end
     end

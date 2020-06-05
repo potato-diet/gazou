@@ -7,10 +7,11 @@ module Gazou
       A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
     )
 
-    def self.get_checksum(data : IO)
+    def self.get_checksum(data : IO::Memory)
       digest = OpenSSL::Digest.new("SHA256")
-      digest << data
-      digest.hexdigest
+      checksum = digest.hexdigest
+      data.rewind
+      checksum
     end
 
     def self.randomize_filename(filename : String)
