@@ -6,6 +6,7 @@ authors:
 dependencies:
   kemal:
     github: kemalcr/kemal
+    branch: master
 
   granite:
     github: amberframework/granite

@@ -9,7 +9,8 @@ module Gazou
 
     def self.get_checksum(data : IO::Memory)
       digest = OpenSSL::Digest.new("SHA256")
-      checksum = digest.hexdigest
+      digest << data
+      checksum = digest.final.hexstring
       data.rewind
       checksum
     end

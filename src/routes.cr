@@ -20,6 +20,7 @@ module Gazou
     HTTP::FormData.parse(env.request) do |upload|
       data = IO::Memory.new
       IO.copy(upload.body, data)
+      data.rewind
 
       checksum = Helpers.get_checksum(data)
 
