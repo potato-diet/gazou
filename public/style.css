@@ -1,0 +1,19 @@
+body {
+  max-width: 800px;
+  margin: auto;
+}
+
+.dz-message {
+  width: 80%;
+  margin: auto;
+}
+
+.dz-button {
+  width: 100%;
+  margin: 20px 0;
+  padding: 30px;
+}
+
+.dz-preview {
+  display: none;
+}

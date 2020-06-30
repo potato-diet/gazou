@@ -2,6 +2,10 @@ require "kemal"
 require "./helpers"
 
 module Gazou
+  get "/" do |env|
+    send_file(env, "public/index.html")
+  end
+
   get "/images/:filename" do |env|
     filename = env.params.url["filename"]
     filepath = File.join(["images", filename])
@@ -18,6 +22,8 @@ module Gazou
     filepath = ""
 
     HTTP::FormData.parse(env.request) do |upload|
+      # The image data stream has to be copied since upload.body can only be
+      # read once.
       data = IO::Memory.new
       IO.copy(upload.body, data)
       data.rewind
